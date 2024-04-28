@@ -1,0 +1,134 @@
+/* Common styles for both desktop and mobile */
+html {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  width: 99%;
+  height: 98%;
+  background-color: #E9F6FF;
+}
+
+.main-div {
+  display: flex;
+  justify-content: center; /* Center the content horizontally */
+  align-items: center; /* Center the content vertically */
+  width: 100%;
+  height: 100%;
+}
+
+.side-box {
+  width: 50%;
+  height: inherit;
+}
+
+#side-box-1 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('loginBG.png'), #E9F6FF; /* Set background image and color */
+  background-size: cover;
+}
+
+#side-box-2 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 45px; /* Adjust border radius as needed */
+  background: #FFF;
+}
+
+.form {
+    display :flex ;
+    flex-direction :column ;
+}
+
+.logo {
+    width :100px ;
+    height :100px ;
+}
+
+input {
+    margin :15px ;
+}
+
+#email,
+#password,
+#username {
+    margin-top :10px ;
+    padding-left :8% ;
+    width :100% ;
+    height :50px ;
+    border :2px solid #dddddd ;
+    box-shadow :0px4px12px rgba(0,0,0,0.05) ;
+    border-radius :8px ;
+}
+
+.submit {
+    width :100% ;
+    height :50px ;
+    border :0 ;
+    border-radius :30px ;
+    background :#280274 ;
+    color :#FFF ;
+    text-align :center ;
+    font-family :monospace,systeam-ui ;
+    font-size :20px ;
+    font-style :normal ;
+    font-weight :700 ;
+    line-height :normal ;
+}
+
+.main-heading {
+    font-family :sans-serif ;
+    margin :0 ;
+}
+
+.sub-heading {
+    font-family :sans-serif ;
+    margin :0 ;
+    color :lightgray ;
+}
+
+.Sign-up,
+.Sign-In {
+   font-family:sans-serif ;
+
+}
+.error{
+   color:rgb(250,72,27) ; 
+}
+
+/* Media Query for Mobile Devices */
+@media only screen and (max-width: 768px) {
+  
+   .main-div {
+      flex-direction: column; /* Stack elements vertically on smaller screens */
+   }
+
+   .side-box {
+      width: auto; /* Adjust width for responsiveness */
+   }
+
+   #side-box-1 {
+      display:none; /* Hide side-box-1 on smaller screens */
+   }
+
+   #side-box-2 {
+      width: auto; /* Adjust width for responsiveness */
+      border-radius:10px; /* Adjust border radius for smaller screens */
+   }
+
+   .logo {
+      width:80px; /* Adjust logo size for smaller screens */
+      height:80px;
+   }
+
+   input, #email, #password, #username {
+      padding-left:5%; /* Adjust padding for smaller screens */
+   }
+}

@@ -1,0 +1,92 @@
+
+* {
+    margin: 0%;
+    padding: 0%;
+    box-sizing: border-box;
+    font-family: "Poppins", 'Bootstrap-icons', sans-serif;
+
+    font-style: normal;
+    text-size-adjust: auto;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  height: 100%;
+  background-color: #3652AD;
+  align-items: center;
+  justify-content: center;
+  /* Blue */
+}
+
+.form-container {
+  max-width: 90%;
+  width: 70%;
+  /* margin: auto; */
+  padding: 1.5rem;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 255, 0.5);
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+input[type=text],
+input[type=number],
+input[type=date] {
+  width: 100%;
+  padding: 0.5rem;
+  border: 2px solid #3652AD30;
+  /* Blue with 50% opacity */
+  border-radius: 18px;
+  /* Rounded corners */
+  outline: none;
+  background-color: #fff;
+  box-sizing: border-box;
+}
+
+input[type=submit] {
+  background-color: #FFFFFF;
+  color: #0000FF;
+  padding: 0.5rem 1rem;
+  border: 1px solid #0000FF;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+
+form {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 1rem;
+}
+
+label,
+input[type=text],
+input[type=number],
+input[type=date],
+input[type=submit] {
+  grid-column: span 1;
+}
+
+label {
+  align-self: center;
+}
+
+@media screen and (max-width: 600px) {
+  .form-container {
+    max-width: 90%;
+    width: 90%;
+  }
+
+
+
+}

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  {% load mathfilters %}
+
+  {% load static %}
+  <meta name="viewport" content="width=device-width">
+  <link href="{% static 'home.css' %}" rel="stylesheet" type="text/css" />
+  <title>Shrimp Easy - Home</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+
+</head>
+
+
+<body>
+  <nav>
+    <div class="logo"></div>
+    <h2 onclick="location.href='{% url 'weather'%}'"> Weather &#xF2A8;</h2>
+
+    <i onclick="location.href='{% url 'logout'%}'" style="color: #fc7c7c ; font-size:x-large"
+      class="bi bi-door-open-fill"></i>
+  </nav>
+  <div class="main-div">
+    <div class="sub-nav">
+      <button class="AddNewFarm" onclick="location.href='{% url 'addNewFarm'%}'">&#xF64D;Add New Farm</button>
+      <form action="{% url 'home' %}" method="GET">
+        {% for farm in farms%}
+        <button class="frm-btn" type="submit" name="farmName" value={{farm.name}}>{{farm}} </button>
+        {% endfor %}
+      </form>
+    </div>
+    <div class="sub-div">
+      <form style="margin: 1% auto 0.5% 2%;" name="deleteFarm" action="{% url 'deleteFarm' %}" method="post">
+        {% csrf_token %}
+        Current Farm : <b>{{farm_details.0.farm}}</b>
+        <input type="hidden" name="ToBeDeletedFarm" value="{{farm_details.0.farm}}">
+        <i style="color: orangered;" onclick="document.forms['deleteFarm'].submit()" class="bi bi-trash"></i>
+
+      </form>
+      {% with rev=farm_details|dictsortreversed:"date" %}
+
+      {% if rev|length > 1 %}
+      <div class="progress-div">
+
+        <div class="progress-sub-div" {% if rev.0.abw|sub:rev.1.abw < 0 %} style=" background-color: #FFF2EB;
+        border: 1px solid #FE7A3620;
+        color: #FFA500;" {% endif %}>
+
+          ABW
+          <br />
+
+          {{rev.0.abw | sub:rev.1.abw}}
+          {% if rev.0.abw|sub:rev.1.abw < 0 %} <i class="bi bi-caret-down-fill"></i>
+            {% else %}
+            <i class="bi bi-caret-up-fill"></i>
+            {% endif %}
+
+
+        </div>
+        <div class="progress-sub-div" {% if rev.0.gain|sub:rev.1.gain < 0 %} style=" background-color: #FFF2EB;
+        border: 1px solid #FE7A3620;
+        color: #FFA500;" {% endif %}>
+
+          Gain
+          <br />
+
+          {{rev.0.gain | sub:rev.1.gain}}
+          {% if rev.0.gain|sub:rev.1.gain < 0 %} <i class="bi bi-caret-down-fill"></i>
+            {% else %}
+            <i class="bi bi-caret-up-fill"></i>
+            {% endif %}
+
+
+        </div>
+        <div class="progress-sub-div" {% if rev.0.adg|sub:rev.1.adg < 0 %} style=" background-color: #FFF2EB;
+        border: 1px solid #FE7A3620;
+        color: #FFA500;" {% endif %}>
+
+          ADG
+          <br />
+
+          {{rev.0.adg | sub:rev.1.adg}}
+          {% if rev.0.adg|sub:rev.1.adg < 0 %} <i class="bi bi-caret-down-fill"></i>
+            {% else %}
+            <i class="bi bi-caret-up-fill"></i>
+            {% endif %}
+
+
+        </div>
+      </div>
+      {% endif %}
+      {% endwith %}
+
+      <div class="table-wrapper">
+        <table class="fl-table">
+          <thead>
+            <tr>
+              <th style="    border-radius: 20px 0 0;
+              ">Date</th>
+              <th>W/P </th>
+              <th>ABW</th>
+              <th>Gain</th>
+              <th>ADG</th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            {% for details in farm_details|dictsortreversed:"date" %}
+            <tr>
+              <td>{{details.date}}</td>
+              <td>{{details.weight}}/{{details.piece}}</td>
+              <td>{{details.abw}}</td>
+              <td>{{details.gain}}</td>
+              <td>{{details.adg}}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <Button onclick="showPopup()" class="float-btn">
+      &#xF1E0; </Button>
+
+  </div>
+
+  <div class="CalculateProgress show" id="popup">
+    <i class="bi bi-x-lg" onclick="closePopup()"></i>
+    {% with frm=farm_details|dictsortreversed:"date"%}
+
+    <h1> Add Weight & Pieces Of Farm : {{frm.0.farm}}</h1>
+    <form class="" action="{% url 'calculateProgress' %}" method="POST">
+      {% csrf_token %}
+
+      <input type="hidden" id="farm" name="farm" value="{{frm.0.farm}}">
+
+      <span>
+        <label for=" weight">Weight:</label>
+        <input type="number" step="any" min="0" id="weight" name="weight" placeholder="Weight" required>
+      </span>
+      <span>
+        <label for="pieces">Pieces:</label>
+        <input type="number" step="any" min="0" id="pieces" name="pieces" placeholder="Pieces" required>
+      </span>
+      <span>
+        <label for="lastDate">Date:</label>
+        <input type="date" id="date" name="date" required>
+      </span>
+
+      <input type="submit" value="Submit">
+
+    </form>
+    <script>
+
+      function showPopup() {
+        var popup = document.getElementById("popup");
+        popup.style.visibility = "visible";
+
+        popup.style.animation = "fadeInUp 0.4s";
+        popup.addEventListener("animationend", function () {
+          popup.style.visibility = "visible";
+        });
+
+        var date = document.getElementById("date");
+        var minDate = new Date('{{frm.0.date|date:"Y-m-d" }}');
+        minDate.setDate(minDate.getDate() + 1);
+        date.min = minDate.toISOString().split('T')[0];
+
+
+      }
+      function closePopup() {
+        var popup = document.getElementById("popup");
+
+        popup.style.animation = "fadeOutDown 0.4s";
+        popup.addEventListener("animationend", function () {
+          popup.style.visibility = "hidden";
+        });
+
+      }
+
+
+    </script>
+    {% endwith %}
+
+  </div>
+</body>
+
+
+</html>

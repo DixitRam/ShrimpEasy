@@ -1,0 +1,84 @@
+<html lang="en">
+
+<head>
+  {% load static %}
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta charset="UTF-8">
+  <link href="{% static 'AddNewFarm.css' %}" rel="stylesheet" type="text/css" />
+
+  <title>Add Farm</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap"
+    rel="stylesheet">
+
+</head>
+
+<body>
+  <div class="form-container">
+    <h1> Hello ,{{user.username}} Enter Latest Data</h1>
+    <form id="addNewFarmForm" action="{% url 'addNewFarm'%}" method="post">
+      {% csrf_token %}
+      <span>
+        <label for="farmName">Farm Name:</label>
+        <input type="text" id="farmName" name="farmName" pattern="^\S*$" placeholder="Farm Name" required>
+      </span>
+      <span>
+        <label for="lastDate">Last Date:</label>
+        <input type="date" id="date" name="date" required></span>
+
+      <span>
+        <label for=" weight">Weight:</label>
+        <input type="number" step="any" min="0" id="weight" name="weight" placeholder="Weight" required></span>
+      <span>
+        <label for="pieces">Pieces:</label>
+        <input type="number" step="any" min="0" id="pieces" name="pieces" placeholder="Pieces" required></span>
+      <span>
+        <label for="abw">ABW:</label>
+        <input type="number" step="any" min="0" id="abw" name="abw" placeholder="ABW" required></span>
+      <span>
+        <label for="gain">Gain:</label>
+        <input type="number" step="any" min="0" id="gain" name="gain" placeholder="Gain" required></span>
+      <span>
+        <label for="adg">ADG:</label>
+        <input type="number" step="any" min="0" id="adg" name="adg" placeholder="ADG" required></span>
+
+      <input type="submit" value="Submit">
+    </form>
+  </div>
+</body>
+<script>
+  const formElement = document.querySelector('#addNewFarmForm');
+
+  formElement.addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    await fetch(formElement.action, {
+      method: 'POST',
+      body: new FormData(formElement)
+    }).then(async res => {
+      if (!res.ok) {
+        msg = await res.json()
+        console.log(msg);
+        console.log(msg.errors);
+        throw new Error(msg.error);
+
+      }
+      else if (res.redirected) {
+
+        window.location.href = res.url;
+      }
+    }).catch(error => {
+      console.log(error);
+      console.log(error.message);
+      alert('An error occurred: ' + error.message);
+    });
+
+
+  });
+</script>
+
+</html>

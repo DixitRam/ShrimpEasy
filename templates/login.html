@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  {% load static %}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Shrimp Easy - Login</title>
+  <link href="{% static 'LogIn.css' %}" rel="stylesheet" type="text/css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap"
+    rel="stylesheet">
+</head>
+
+<body>
+  <div class="main-div">
+    <div class="side-box" id="side-box-1">
+    </div>
+    <div class="side-box" id="side-box-2">
+      <form class="form" id="form-login" action="{% url 'login' %}" method="post">
+        {% csrf_token %}
+
+        <div class="logo"></div>
+        <h1 class="main-heading">
+          Welcome Back!
+        </h1>
+        <p class="sub-heading">Please enter your details.</p>
+        <input type="username" id="username" name="username" placeholder="Enter your username">
+        <input type="password" id="password" name="password" placeholder="Enter your password">
+        <input class="submit" type="submit" value="Log In">
+        {% if error_message %}
+        <span class="error">
+          {{ error_message }}
+        </span>
+        {% endif %}
+
+      </form>
+      <div class="Sign-up">
+        <p>Don't have account? <a href="{%url 'signup'%}">Sign Up</a>
+        </p>
+      </div>
+
+    </div>
+  </div>
+
+</body>
+
+</html>
