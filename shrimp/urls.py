@@ -26,8 +26,8 @@ from django.conf.urls.static import static
 from django.conf import settings
 urlpatterns = [
     path('',views.home,name='home'),
-    path('login',views.login,name='login'),
-    path('signup',views.signup,name='signup'),
+    path('login',views.phoneLogin,name='login'),
+    # path('signup',views.signup,name='signup'),
     path('logout',views.logout,name='logout'),
     path('addNewFarm',views.addNewFarm,name='addNewFarm'),
     path('deleteFarm',views.deleteFarm,name='deleteFarm'),

@@ -38,31 +38,31 @@ def home(request):
 # def signup(req):
 #     return render(req,"SignUp.html")
 
-def signup(req):
-    if req.method == 'POST':
-        username=req.POST['username']
-        email=req.POST['email']
-        password1=req.POST['pass1']
-        password=req.POST['pass2']
-        if password == password1:
-            if User.objects.filter(username=username).exists() | User.objects.filter( email=email).exists():
-                error_message = "Email OR Username already exists. Please use a different one."
-                return render(req, 'SignUp.html', {'error_message': error_message})
-            else:
-                user = User.objects.create_user(username=username, email=email, password=password)
-                user.save()
-                user = auth.authenticate(username=username,password=password)
-                auth.login(req,user)
+# def signup(req):
+#     if req.method == 'POST':
+#         username=req.POST['username']
+#         email=req.POST['email']
+#         password1=req.POST['pass1']
+#         password=req.POST['pass2']
+#         if password == password1:
+#             if User.objects.filter(username=username).exists() | User.objects.filter( email=email).exists():
+#                 error_message = "Email OR Username already exists. Please use a different one."
+#                 return render(req, 'SignUp.html', {'error_message': error_message})
+#             else:
+#                 user = User.objects.create_user(username=username, email=email, password=password)
+#                 user.save()
+#                 user = auth.authenticate(username=username,password=password)
+#                 auth.login(req,user)
 
-                return redirect('addNewFarm')
-        else:
+#                 return redirect('addNewFarm')
+#         else:
             
-            error_message = "Passwords do not match. Please try again."
-            return render(req, 'SignUp.html', {'error_message': error_message})
-    else:
-        return render(req, 'SignUp.html')
+#             error_message = "Passwords do not match. Please try again."
+#             return render(req, 'SignUp.html', {'error_message': error_message})
+#     else:
+#         return render(req, 'SignUp.html')
 
-def login (req):
+# def login (req):
     if req.method == 'POST':
         username = req.POST['username']
         password = req.POST['password']
@@ -77,6 +77,31 @@ def login (req):
 
     else:
         return render(req,'login.html')
+def phoneLogin(req):
+    if req.method == 'POST':
+        username = req.POST['uname']
+        password = req.POST['pass']
+        user = auth.authenticate(username=username,password=password)
+       
+        if user is None:
+                
+                if User.objects.filter(username=username).exists(): 
+                    error_message = "Password Incorrect"
+                    return render(req, 'phoneLogin.html', {'error_message': error_message})
+                else:
+                    user = User.objects.create_user(username=username, email="No email needed", password=password)
+                    user.save()
+                    user = auth.authenticate(username=username,password=password)
+                    auth.login(req,user)
+                    return redirect('addNewFarm')
+        elif user is not None:
+            auth.login(req,user)
+            return redirect('home')
+        
+    else:
+         return render(req,'phoneLogin.html')
+
+
 def logout(req):
     auth.logout(req)
     return redirect('login')
@@ -93,8 +118,6 @@ def addNewFarm(req):
 
         try:
             new_farm = Farm.objects.create(user=user, name=farmname)
-            print(new_farm)
-            print("Created farm tyep",type(new_farm))
             FarmDetails.objects.create(farm=new_farm, date=date, weight=weight, piece=pieces, abw=abw, gain=gain, adg=adg)
             return redirect('home')
         except IntegrityError:
@@ -106,18 +129,14 @@ def addNewFarm(req):
 
 
 def GetFarm(user,farmName):
-    print(farmName)
     allFarms = Farm.objects.filter(user=user)
 
     to_array = [char for char in farmName]
-    print(to_array)
     for f in allFarms:
         to_array = [char for char in f.name]
-        print(to_array)
 
     farm = Farm.objects.filter(user=user,name=farmName)
-    print("farm is :----",farm)
-    print("allFarms is :----", farm[0])
+
 
     farm_details = FarmDetails.objects.filter(farm=farm[0].id )
     return farm_details ,allFarms
@@ -146,7 +165,6 @@ def calculateProgress(req):
     prev_date =  farm_details.date
 
     abw = Decimal(weight/pieces)
-    print("type of prev abw , abw",type(prev_abw),type(abw))
     gain = abw -prev_abw
     day_gap = (currentDate - prev_date).days;
     adg = gain/day_gap;
