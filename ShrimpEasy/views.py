@@ -104,7 +104,7 @@ def phoneLogin(req):
 
 def logout(req):
     auth.logout(req)
-    return redirect('login')
+    return redirect('phoneLogin')
 def addNewFarm(req):
     if req.method=='POST':
         user = req.user
