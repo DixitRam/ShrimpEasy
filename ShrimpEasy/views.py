@@ -31,7 +31,7 @@ def home(request):
         else:
             return render(request, 'home.html',{'farm_details':farm_details , 'farms':farms})
     else:        
-        return redirect("login")
+        return redirect("phoneLogin")
 
 
     
@@ -63,20 +63,20 @@ def home(request):
 #         return render(req, 'SignUp.html')
 
 # def login (req):
-    if req.method == 'POST':
-        username = req.POST['username']
-        password = req.POST['password']
-        user = auth.authenticate(username=username,password=password)
-        if user is not None:
-            auth.login(req,user)
-            return redirect('home')
-        else:
+    # if req.method == 'POST':
+    #     username = req.POST['username']
+    #     password = req.POST['password']
+    #     user = auth.authenticate(username=username,password=password)
+    #     if user is not None:
+    #         auth.login(req,user)
+    #         return redirect('home')
+    #     else:
             
-            error_message = "Invalid Credentials"
-            return render(req, 'login.html', {'error_message': error_message})
+    #         error_message = "Invalid Credentials"
+    #         return render(req, 'login.html', {'error_message': error_message})
 
-    else:
-        return render(req,'login.html')
+    # else:
+    #     return render(req,'login.html')
 def phoneLogin(req):
     if req.method == 'POST':
         username = req.POST['uname']
