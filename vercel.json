@@ -4,9 +4,8 @@
       "src": "shrimp/wsgi.py",
       "use": "@vercel/python",
       "config": {
-        "maxDuration": 10,  // Increase the maxDuration if needed
-        "memory": 1024      // Adjust memory allocation based on app needs
-      }
+        "maxDuration": 10,
+        "memory": 1024         }
     },
     {
       "src": "build_files.sh",
@@ -21,7 +20,7 @@
       "src": "/(static|media)/(.*)",
       "dest": "/static/$1/$2",
       "headers": {
-        "Cache-Control": "max-age=31536000"  // Cache static files for a year
+        "Cache-Control": "max-age=31536000"
       }
     },
     {
