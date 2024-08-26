@@ -5,4 +5,4 @@ pip install -r requirements.txt
 pip install --upgrade pip
 python manage.py migrate 
 python manage.py collectstatic --no-input
-echo "done"
+echo "🎉🎉🎉 Done 🎉🎉🎉"
