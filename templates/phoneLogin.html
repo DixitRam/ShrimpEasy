@@ -27,9 +27,8 @@
           {{ error_message }}
         </span>
         {% endif %}
-        <input type="username" input type="number" maxlength="10" id="username" name="uname" placeholder="Enter 10 Digit Phone Number">
-
-        <input type="password" id="password" name="pass" placeholder="Enter your password">
+        <input type="tel" id="username" name="uname" placeholder="Enter 10 Digt Phone Number" minlength="10" maxlength="10" required>
+        <input type="password" id="password" name="pass" placeholder="Enter your password" required>
 
         <input class="submit" type="submit" value="Login">
       </form>
