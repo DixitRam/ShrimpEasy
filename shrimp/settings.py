@@ -80,12 +80,8 @@ WSGI_APPLICATION = 'shrimp.wsgi.application'
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.getenv('DB_Name'),
-        "USER": os.getenv('DB_User'),
-        "PASSWORD": os.getenv('DB_Password'),
-        "HOST": os.getenv('DB_Host'),
-        "PORT": os.getenv('DB_Port'),
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
 }
 
